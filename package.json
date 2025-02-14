@@ -8,15 +8,25 @@
     "update-docs": "node updateDocumentation.js"
   },
   "dependencies": {
-    "@clerk/backend": "^1.24.1",
+    "@clerk/localizations": "^3.10.6",
     "@clerk/nextjs": "^6.11.3",
-    "next": "latest",
-    "react": "latest",
-    "react-dom": "latest"
+    "@headlessui/react": "^1.7.19",
+    "date-fns": "^2.30.0",
+    "next": "14.1.0",
+    "react": "18.2.0",
+    "react-beautiful-dnd": "^13.1.1",
+    "react-dom": "18.2.0",
+    "react-icons": "^4.12.0",
+    "recharts": "^2.15.1"
   },
   "devDependencies": {
-    "@types/node": "^22.13.4",
-    "@types/react": "19.0.8",
-    "typescript": "latest"
+    "@types/node": "^20.11.19",
+    "@types/react": "^18.2.57",
+    "@types/react-beautiful-dnd": "^13.1.8",
+    "@types/react-dom": "^18.2.19",
+    "autoprefixer": "^10.4.17",
+    "postcss": "^8.4.35",
+    "tailwindcss": "^3.4.1",
+    "typescript": "^5.3.3"
   }
 }

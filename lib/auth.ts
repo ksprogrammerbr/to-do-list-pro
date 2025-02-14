@@ -1,11 +1,17 @@
-import { ClerkProvider, RedirectToSignIn } from "@clerk/nextjs";
+import { ClerkProvider } from "@clerk/nextjs";
+import { ReactNode } from "react";
 
-export const clerkFrontendApi = process.env
-  .NEXT_PUBLIC_CLERK_FRONTEND_API as string;
+interface AuthProviderProps {
+  children: ReactNode;
+}
 
-export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
+export const AuthProvider = ({ children }: AuthProviderProps) => {
   return (
-    <ClerkProvider frontendApi={clerkFrontendApi}>{children}</ClerkProvider>
+    <ClerkProvider
+      publishableKey={process.env.NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY}
+    >
+      {children}
+    </ClerkProvider>
   );
 };
 
@@ -13,9 +19,9 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
 export const withAuth = (Component: React.ComponentType) => {
   return (props: any) => {
     return (
-      <RedirectToSignIn>
+      <ClerkProvider>
         <Component {...props} />
-      </RedirectToSignIn>
+      </ClerkProvider>
     );
   };
 };
