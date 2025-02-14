@@ -1,7 +1,7 @@
 import React from "react";
 import { UserButton, useUser } from "@clerk/nextjs";
 import Link from "next/link";
-import { FiHome, FiSettings, FiList } from "react-icons/fi";
+import { FiHome, FiSettings, FiActivity, FiUsers } from "react-icons/fi";
 import { useRouter } from "next/router";
 
 const Navbar: React.FC = () => {
@@ -25,15 +25,63 @@ const Navbar: React.FC = () => {
               <span className="font-medium">Início</span>
             </Link>
             {user?.publicMetadata?.role === "admin" && (
-              <Link
-                href="/admin"
-                className={`text-gray-800 hover:text-gray-600 flex items-center gap-2 ${
-                  router.pathname.startsWith("/admin") ? "font-bold" : ""
-                }`}
-              >
-                <FiSettings className="w-5 h-5" />
-                <span className="font-medium">Admin</span>
-              </Link>
+              <>
+                <Link
+                  href="/admin/dashboard"
+                  className={`text-gray-800 hover:text-gray-600 flex items-center gap-2 ${
+                    router.pathname.startsWith("/admin/dashboard")
+                      ? "font-bold"
+                      : ""
+                  }`}
+                >
+                  <FiActivity className="w-5 h-5" />
+                  <span className="font-medium">Dashboard</span>
+                </Link>
+                <Link
+                  href="/admin/users"
+                  className={`text-gray-800 hover:text-gray-600 flex items-center gap-2 ${
+                    router.pathname.startsWith("/admin/users")
+                      ? "font-bold"
+                      : ""
+                  }`}
+                >
+                  <FiUsers className="w-5 h-5" />
+                  <span className="font-medium">Usuários</span>
+                </Link>
+                <Link
+                  href="/admin/reports"
+                  className={`text-gray-800 hover:text-gray-600 flex items-center gap-2 ${
+                    router.pathname.startsWith("/admin/reports")
+                      ? "font-bold"
+                      : ""
+                  }`}
+                >
+                  <FiActivity className="w-5 h-5" />
+                  <span className="font-medium">Relatórios</span>
+                </Link>
+                <Link
+                  href="/admin/settings"
+                  className={`text-gray-800 hover:text-gray-600 flex items-center gap-2 ${
+                    router.pathname.startsWith("/admin/settings")
+                      ? "font-bold"
+                      : ""
+                  }`}
+                >
+                  <FiSettings className="w-5 h-5" />
+                  <span className="font-medium">Configurações</span>
+                </Link>
+                <Link
+                  href="/admin/activity"
+                  className={`text-gray-800 hover:text-gray-600 flex items-center gap-2 ${
+                    router.pathname.startsWith("/admin/activity")
+                      ? "font-bold"
+                      : ""
+                  }`}
+                >
+                  <FiActivity className="w-5 h-5" />
+                  <span className="font-medium">Atividades</span>
+                </Link>
+              </>
             )}
           </div>
           <div className="flex items-center gap-4">
