@@ -5,9 +5,11 @@ import { FiHome, FiSettings, FiActivity, FiUsers } from "react-icons/fi";
 import { useRouter } from "next/router";
 
 const Navbar: React.FC = () => {
-  const { user, isSignedIn } = useUser();
+  const { user, isSignedIn, isLoaded } = useUser(); // Inclua isLoaded
   const router = useRouter();
 
+  // Exiba um carregando enquanto os dados estão sendo carregados
+  if (!isLoaded) return <div>Loading...</div>;
   if (!isSignedIn) return null;
 
   return (
@@ -80,6 +82,17 @@ const Navbar: React.FC = () => {
                 >
                   <FiActivity className="w-5 h-5" />
                   <span className="font-medium">Atividades</span>
+                </Link>
+                <Link
+                  href="/admin/financialAdmin"
+                  className={`text-gray-800 hover:text-gray-600 flex items-center gap-2 ${
+                    router.pathname.startsWith("/admin/financialAdmin")
+                      ? "font-bold"
+                      : ""
+                  }`}
+                >
+                  <FiActivity className="w-5 h-5" />
+                  <span className="font-medium">Administração Financeira</span>
                 </Link>
               </>
             )}

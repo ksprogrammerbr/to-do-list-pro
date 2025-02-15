@@ -1,18 +1,29 @@
-import { auth } from "@clerk/nextjs";
-import type { User } from "@clerk/nextjs/server";
+import { ClerkProvider, RedirectToSignIn } from "@clerk/nextjs";
+import { ReactNode } from "react";
 
-export async function getUser(): Promise<User | null> {
-  const { userId } = auth();
-  if (!userId) return null;
-
-  // Aqui você pode buscar mais informações do usuário se necessário
-  return {
-    id: userId,
-    role: "admin", // Implemente sua lógica de roles
-  } as User;
+interface AuthProviderProps {
+  children: ReactNode;
 }
 
-export async function isAdmin(): Promise<boolean> {
-  const user = await getUser();
-  return user?.role === "admin";
-}
+export const AuthProvider = ({ children }: AuthProviderProps) => {
+  return (
+    <ClerkProvider
+      publishableKey={process.env.NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY}
+    >
+      {children}
+    </ClerkProvider>
+  );
+};
+
+// Função para proteger rotas
+export const withAuth = (Component: React.ComponentType) => {
+  return (props: any) => {
+    const { isSignedIn } = useUser(); // Verifica se o usuário está autenticado
+
+    if (!isSignedIn) {
+      return <RedirectToSignIn />; // Redireciona para a página de login se não estiver autenticado
+    }
+
+    return <Component {...props} />;
+  };
+};
