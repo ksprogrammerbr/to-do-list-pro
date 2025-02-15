@@ -1,6 +1,6 @@
 import React from "react";
 import Navbar from "./Navbar";
-import { useUser } from "@clerk/nextjs";
+import useAuth from "../hooks/useAuth";
 import { useRouter } from "next/router";
 import { useEffect } from "react";
 import Link from "next/link";
@@ -11,17 +11,11 @@ interface AdminLayoutProps {
 }
 
 const AdminLayout: React.FC<AdminLayoutProps> = ({ children }) => {
-  const { isLoaded, isSignedIn, user } = useUser();
+  const { isLoaded, isSignedIn, user } = useAuth();
   const router = useRouter();
 
   useEffect(() => {
-    if (isLoaded && !isSignedIn) {
-      router.push("/sign-in");
-    } else if (
-      isLoaded &&
-      isSignedIn &&
-      user?.publicMetadata?.role !== "admin"
-    ) {
+    if (isLoaded && isSignedIn && user?.publicMetadata?.role !== "admin") {
       router.push("/");
     }
   }, [isLoaded, isSignedIn, user, router]);

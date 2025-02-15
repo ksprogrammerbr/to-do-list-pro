@@ -1,25 +1,12 @@
-import { ClerkProvider } from "@clerk/nextjs";
 import type { AppProps } from "next/app";
-import { ptBR } from "@clerk/localizations";
+import RootLayout from "../components/RootLayout";
 import "../styles/globals.css";
-import { AuthProvider } from "../lib/auth"; // Ajuste o caminho conforme necessário
 
 function MyApp({ Component, pageProps }: AppProps) {
   return (
-    <ClerkProvider
-      localization={ptBR}
-      appearance={{
-        layout: {
-          socialButtonsVariant: "iconButton",
-          socialButtonsPlacement: "bottom",
-        },
-        variables: {
-          colorPrimary: "#73C7C7",
-        },
-      }}
-    >
+    <RootLayout>
       <Component {...pageProps} />
-    </ClerkProvider>
+    </RootLayout>
   );
 }
 

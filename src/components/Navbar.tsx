@@ -29,37 +29,31 @@ const Navbar: React.FC = () => {
             {user?.publicMetadata?.role === "admin" && (
               <>
                 <Link
-                  href="/admin/dashboard"
+                  href="/admin"
                   className={`text-gray-800 hover:text-gray-600 flex items-center gap-2 ${
-                    router.pathname.startsWith("/admin/dashboard")
-                      ? "font-bold"
-                      : ""
+                    router.pathname === "/admin" ? "font-bold" : ""
                   }`}
                 >
-                  <FiActivity className="w-5 h-5" />
-                  <span className="font-medium">Dashboard</span>
+                  <FiHome className="w-5 h-5" />
+                  <span>Dashboard</span>
                 </Link>
                 <Link
                   href="/admin/users"
                   className={`text-gray-800 hover:text-gray-600 flex items-center gap-2 ${
-                    router.pathname.startsWith("/admin/users")
-                      ? "font-bold"
-                      : ""
+                    router.pathname === "/admin/users" ? "font-bold" : ""
                   }`}
                 >
                   <FiUsers className="w-5 h-5" />
-                  <span className="font-medium">Usuários</span>
+                  <span>Usuários</span>
                 </Link>
                 <Link
                   href="/admin/reports"
                   className={`text-gray-800 hover:text-gray-600 flex items-center gap-2 ${
-                    router.pathname.startsWith("/admin/reports")
-                      ? "font-bold"
-                      : ""
+                    router.pathname === "/admin/reports" ? "font-bold" : ""
                   }`}
                 >
                   <FiActivity className="w-5 h-5" />
-                  <span className="font-medium">Relatórios</span>
+                  <span>Relatórios</span>
                 </Link>
                 <Link
                   href="/admin/settings"

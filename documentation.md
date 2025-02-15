@@ -1,180 +1,172 @@
 # To-Do List Pro - Documentação
 
-## Visão Geral
+## Status do Projeto
 
-O To-Do List Pro é um sistema de gerenciamento de tarefas moderno e intuitivo, desenvolvido com Next.js, TypeScript, Tailwind CSS e Clerk para autenticação. O sistema oferece uma interface elegante com efeitos visuais modernos como glassmorphism e design responsivo.
+### Implementado ✅
 
-## Funcionalidades Principais
-
-### 1. Autenticação e Autorização
+#### 1. Autenticação (Clerk)
 
 - Sistema de login/registro usando Clerk
 - Proteção de rotas
-- Gerenciamento de sessões
-- Perfis de usuário (Admin e Usuário comum)
+- Middleware configurado
+- Estrutura de autenticação centralizada com RootLayout
+- Hook personalizado useAuth
+- Redirecionamento automático para login
 
-### 2. Gerenciamento de Tarefas
-
-- Visualização em Kanban ou Lista
-- Drag and Drop para mover tarefas entre status
-- Filtros avançados por:
-  - Status (A Fazer, Em Progresso, Concluído)
-  - Prioridade (Baixa, Média, Alta)
-  - Data
-  - Busca por texto
-
-### 3. Interface do Usuário
+#### 2. Interface do Usuário
 
 - Design moderno com efeitos glassmorphism
 - Tema com gradientes suaves
-- Paleta de cores personalizada:
-  - #F7CFD8 (Rosa claro)
-  - #F4F8D3 (Verde claro)
-  - #A6F1E0 (Turquesa)
-  - #73C7C7 (Azul esverdeado)
-- Responsividade para diferentes dispositivos
-- Animações e transições suaves
+- Layout responsivo
+- Navbar com navegação
+- Componentes base implementados:
+  - TaskCard
+  - TaskForm
+  - TaskList
+  - AdminLayout
+  - RootLayout
 
-### 4. Recursos de Tarefas
+#### 3. Painel Administrativo
 
-- Criação/Edição/Exclusão de tarefas
-- Definição de prioridade
-- Agendamento com data e hora
+- Dashboard básico
+- Visualização de usuários
+- Página de relatórios
+- Seção financeira
+- Navegação entre seções
+
+#### 4. Integração com Stripe (Parcial)
+
+- Configuração inicial do Stripe
+- Componente de checkout
+- Rota de API para sessão de pagamento
+
+### Pendente ⏳
+
+#### 1. Banco de Dados (Supabase)
+
+- Implementar conexão com Supabase
+- Criar tabelas necessárias:
+  - tasks
+  - user_profiles
+  - payments
+- Implementar CRUD de tarefas
+- Sincronização de dados em tempo real
+
+#### 2. Funcionalidades de Tarefas
+
+- Drag and Drop entre status
+- Sistema de filtros
+- Busca de tarefas
+- Ordenação
 - Sistema de lembretes
-- Descrições detalhadas
-- Status de progresso
+- Histórico de alterações
 
-### 5. Painel Administrativo
+#### 3. Integração Stripe (Completar)
 
-- Dashboard com estatísticas
-- Gerenciamento de usuários
-- Histórico de atividades
-- Configurações do sistema
+- Implementar webhooks
+- Histórico de pagamentos
+- Sistema de assinaturas
+- Relatórios financeiros
+
+#### 4. Funcionalidades Administrativas
+
+- Gerenciamento efetivo de usuários
+- Sistema de roles e permissões
+- Logs de atividades
+- Relatórios detalhados
+- Métricas e analytics
+
+#### 5. Melhorias de UX/UI
+
+- Feedback visual de ações
+- Loading states
+- Tratamento de erros
+- Mensagens de confirmação
+- Tooltips e ajudas contextuais
 
 ## Estrutura do Projeto
 
 ### Componentes Principais
 
-1. **TaskCard**
+```
+src/
+  components/
+    AdminLayout.tsx    # Layout para páginas administrativas
+    Navbar.tsx         # Barra de navegação
+    RootLayout.tsx     # Provider principal do Clerk
+    TaskCard.tsx       # Card individual de tarefa
+    TaskForm.tsx       # Formulário de criação/edição
+    TaskList.tsx       # Lista de tarefas
 
-   - Exibição individual de tarefas
-   - Ações rápidas (editar/excluir)
-   - Indicadores visuais de prioridade
+  hooks/
+    useAuth.ts         # Hook personalizado de autenticação
 
-2. **TaskModal**
+  pages/
+    admin/
+      index.tsx        # Dashboard
+      users.tsx        # Gerenciamento de usuários
+      reports.tsx      # Relatórios
+      settings.tsx     # Configurações
+      activity.tsx     # Atividades
+      financialAdmin.tsx # Administração financeira
 
-   - Formulário para criar/editar tarefas
-   - Campos: título, descrição, data, hora, prioridade
+    api/
+      create-checkout-session.ts # API do Stripe
 
-3. **TaskFilters**
+    _app.tsx           # Configuração da aplicação
+    index.tsx          # Página principal
 
-   - Filtros avançados
-   - Busca em tempo real
-   - Seleção de período
-
-4. **DraggableTaskList**
-   - Sistema de drag and drop
-   - Organização em colunas Kanban
-   - Atualização em tempo real
-
-### Páginas
-
-1. **Página Principal**
-
-   - Visualização Kanban/Lista
-   - Estatísticas rápidas
-   - Botão de adicionar tarefa
-
-2. **Painel Admin**
-
-   - `/admin`: Dashboard principal
-   - `/admin/users`: Gerenciamento de usuários
-   - `/admin/activity`: Histórico de atividades
-   - `/admin/settings`: Configurações do sistema
-
-3. **Autenticação**
-   - `/sign-in`: Login
-   - `/sign-up`: Registro
-   - `/profile`: Perfil do usuário
-
-## Recursos Técnicos
+  middleware.ts        # Middleware do Clerk
+```
 
 ### Tecnologias Utilizadas
 
 - Next.js
 - TypeScript
 - Tailwind CSS
-- Clerk Authentication
+- Clerk (Autenticação)
+- Stripe (Pagamentos)
+- Supabase (Pendente)
 - React Icons
-- Date-fns
-- React Beautiful DnD
+- Recharts (Gráficos)
 
-### Dependências Principais
+## Próximos Passos
 
-```json
-{
-  "dependencies": {
-    "@clerk/nextjs": "^6.11.3",
-    "@headlessui/react": "^1.7.19",
-    "date-fns": "^2.30.0",
-    "react-icons": "^4.12.0"
-  }
-}
-```
+1. **Prioridade Alta**
 
-### Configurações
+   - Implementar integração com Supabase
+   - Completar CRUD de tarefas
+   - Finalizar integração com Stripe
 
-1. **Tailwind**
+2. **Prioridade Média**
 
-   - Cores personalizadas
-   - Plugins de formulário
-   - Configurações de responsividade
+   - Implementar sistema de filtros
+   - Adicionar drag and drop
+   - Melhorar feedback visual
 
-2. **Clerk**
-   - Autenticação
-   - Middleware de proteção
-   - Rotas públicas/privadas
+3. **Prioridade Baixa**
+   - Implementar relatórios detalhados
+   - Adicionar analytics
+   - Melhorar documentação
 
-## Funcionalidades Futuras Planejadas
+## Configuração do Ambiente
 
-1. Integração com calendário
-2. Exportação de relatórios
-3. Sistema de tags personalizadas
-4. Compartilhamento de tarefas
-5. Modo offline
-6. Integração com notificações push
-
-## Como Usar
-
-### Requisitos
-
-- Node.js 14+
-- NPM ou Yarn
-- Conta no Clerk
-
-### Instalação
-
-```bash
-# Clone o repositório
-git clone [url-do-repositorio]
-
-# Instale as dependências
-npm install
-
-# Configure as variáveis de ambiente
-cp .env.example .env.local
-
-# Inicie o servidor de desenvolvimento
-npm run dev
-```
-
-### Configuração do Ambiente
-
-Crie um arquivo `.env.local` com as seguintes variáveis:
+### Variáveis de Ambiente (.env.local)
 
 ```env
-NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY=sua_chave_clerk
-CLERK_SECRET_KEY=sua_chave_secreta_clerk
+NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY=pk_test_****
+CLERK_SECRET_KEY=sk_test_****
+NEXT_PUBLIC_CLERK_SIGN_IN_URL=/sign-in
+NEXT_PUBLIC_CLERK_SIGN_UP_URL=/sign-up
+NEXT_PUBLIC_CLERK_AFTER_SIGN_IN_URL=/
+NEXT_PUBLIC_CLERK_AFTER_SIGN_UP_URL=/
+
+STRIPE_SECRET_KEY=sk_test_****
+NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY=pk_test_****
+
+# Pendente
+NEXT_PUBLIC_SUPABASE_URL=****
+NEXT_PUBLIC_SUPABASE_ANON_KEY=****
 ```
 
 ## Contribuição

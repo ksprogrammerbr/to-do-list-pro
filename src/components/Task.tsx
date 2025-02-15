@@ -1,6 +1,11 @@
 import React from "react";
 
-const Task = ({ title, completed }) => {
+interface TaskProps {
+  title: string;
+  completed: boolean;
+}
+
+const Task: React.FC<TaskProps> = ({ title, completed }) => {
   return (
     <div>
       <h2>{title}</h2>

@@ -1,146 +1,279 @@
-# To-Do List - Documentação
+# To-Do List Pro - Documentação Completa
 
-## Visão Geral
+## Visão Geral do Projeto
 
-Este documento descreve o escopo e as funcionalidades do projeto **To-Do List**, desenvolvido com as seguintes tecnologias:
+O To-Do List Pro é um sistema de gerenciamento de tarefas profissional desenvolvido para atender tanto usuários individuais quanto equipes. O sistema oferece uma interface moderna e intuitiva, com recursos avançados de organização, acompanhamento e análise de tarefas.
 
-- **Next.js** (Framework React para aplicações web)
-- **TypeScript** (Tipagem estática para JavaScript)
-- **Tailwind CSS** (Estilização eficiente)
-- **Supabase** (Banco de dados PostgreSQL + Backend as a Service)
-- **Clerk** (Autenticação e gerenciamento de usuários)
+### Principais Diferenciais
 
-## Estrutura do Projeto
+- Interface moderna com efeitos visuais glassmorphism
+- Sistema de autenticação robusto
+- Painel administrativo completo
+- Integração com sistema de pagamentos
+- Suporte a múltiplos usuários e perfis
 
-### **Páginas Principais**
+## Tecnologias Utilizadas
 
-```
-/src
-├── pages
-│   ├── index.tsx  # Tela principal (lista de tarefas)
-│   ├── admin.tsx  # Tela de administração
-│   ├── sign-in.tsx  # Página de login (Clerk)
-│   ├── sign-up.tsx  # Página de cadastro (Clerk)
-└── components
-    ├── Task.tsx  # Componente de tarefa individual
-    ├── TaskList.tsx  # Lista de tarefas
-    ├── TaskForm.tsx  # Formulário para adicionar tarefas
-```
+### Frontend
 
-### **Configurações e Hooks**
+- **Next.js**: Framework React para renderização híbrida (SSR/SSG)
+- **TypeScript**: Adiciona tipagem estática ao JavaScript
+- **Tailwind CSS**: Framework CSS para estilização rápida e responsiva
+- **React Icons**: Biblioteca de ícones
+- **Recharts**: Biblioteca para criação de gráficos
 
-```
-/lib
-├── supabase.ts  # Configuração do Supabase
-├── auth.ts  # Funções de autenticação
-/hooks
-├── useTasks.ts  # Hook para CRUD de tarefas
-/context
-├── TaskContext.tsx  # Context API para gerenciamento de estado
-```
+### Backend e Serviços
 
-## Funcionalidades
+- **Clerk**: Sistema de autenticação e gerenciamento de usuários
+- **Stripe**: Processamento de pagamentos
+- **Supabase** (em implementação): Banco de dados PostgreSQL e backend
 
-### **Autenticação**
+## Estado Atual do Projeto
 
-- Cadastro/Login via Clerk
-- Proteção de rotas (usuário precisa estar logado para acessar a lista de tarefas)
-- Logout seguro
+### 1. Sistema de Autenticação (Implementado ✅)
 
-### **Gerenciamento de Tarefas (CRUD)**
+#### Funcionalidades do Clerk
 
-- Criar nova tarefa (título obrigatório)
-- Marcar tarefa como concluída
-- Editar título da tarefa
-- Excluir tarefa
-- Listagem automática de tarefas do usuário autenticado
+- Login/Registro de usuários
+- Autenticação via redes sociais
+- Recuperação de senha
+- Proteção de rotas
+- Middleware configurado
+- Gerenciamento de sessões
 
-### **Administração**
+#### Estrutura de Autenticação
 
-- Acesso exclusivo a usuários administradores
-- Listagem de todos os usuários cadastrados
-- Gerenciamento de tarefas dos usuários
-- Exclusão de tarefas específicas
+- RootLayout para provider global
+- Hook personalizado useAuth
+- Redirecionamento automático
+- Verificação de roles (admin/user)
 
-### **Banco de Dados (Supabase - PostgreSQL)**
+### 2. Interface do Usuário (Implementado ✅)
 
-Tabela `tasks`:
+#### Design System
+
+- Efeitos glassmorphism
+- Gradientes suaves
+- Layout responsivo
+- Sistema de cores consistente:
+  - Primary: #73C7C7
+  - Secondary: Variações de branco/transparente
+  - Accent: Cores específicas para status e prioridades
+
+#### Componentes Principais
+
+1. **Navbar**
+
+   - Navegação principal
+   - Menu de usuário
+   - Indicador de status
+
+2. **TaskCard**
+
+   - Exibição de informações da tarefa
+   - Ações rápidas
+   - Indicadores visuais de status/prioridade
+
+3. **TaskForm**
+
+   - Criação/edição de tarefas
+   - Validação de campos
+   - Preview em tempo real
+
+4. **TaskList**
+   - Organização em colunas
+   - Filtros e ordenação
+   - Paginação
+
+### 3. Painel Administrativo (Implementado ✅)
+
+#### Funcionalidades
+
+1. **Dashboard**
+
+   - Visão geral do sistema
+   - Gráficos e métricas
+   - Indicadores de performance
+
+2. **Gerenciamento de Usuários**
+
+   - Lista de usuários
+   - Edição de perfis
+   - Controle de acesso
+
+3. **Relatórios**
+
+   - Geração de relatórios
+   - Exportação de dados
+   - Análises customizadas
+
+4. **Configurações**
+   - Preferências do sistema
+   - Integrações
+   - Backup e restauração
+
+### 4. Integração Stripe (Parcialmente Implementado ⚠️)
+
+#### Implementado
+
+- Configuração inicial
+- Componente de checkout
+- API de sessão de pagamento
+
+#### Pendente
+
+- Webhooks
+- Sistema de assinaturas
+- Relatórios financeiros
+- Histórico de transações
+
+## Funcionalidades Pendentes ⏳
+
+### 1. Banco de Dados (Supabase)
+
+#### Estrutura Planejada
 
 ```sql
-create table tasks (
-  id uuid default gen_random_uuid() primary key,
-  title text not null,
-  completed boolean default false,
-  user_id uuid references auth.users on delete cascade
+-- Tabela de Tarefas
+CREATE TABLE tasks (
+  id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+  title VARCHAR NOT NULL,
+  description TEXT,
+  status VARCHAR CHECK (status IN ('todo', 'doing', 'done')),
+  priority VARCHAR CHECK (priority IN ('low', 'medium', 'high')),
+  due_date TIMESTAMP,
+  created_at TIMESTAMP DEFAULT NOW(),
+  updated_at TIMESTAMP DEFAULT NOW(),
+  user_id UUID REFERENCES auth.users(id)
+);
+
+-- Tabela de Perfis de Usuário
+CREATE TABLE user_profiles (
+  id UUID PRIMARY KEY REFERENCES auth.users(id),
+  full_name VARCHAR,
+  role VARCHAR DEFAULT 'user',
+  preferences JSONB
+);
+
+-- Tabela de Pagamentos
+CREATE TABLE payments (
+  id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+  user_id UUID REFERENCES auth.users(id),
+  amount DECIMAL,
+  status VARCHAR,
+  stripe_id VARCHAR,
+  created_at TIMESTAMP DEFAULT NOW()
 );
 ```
 
-### **Melhoria de UI/UX**
+### 2. Melhorias de UX/UI Planejadas
 
-- Interface responsiva com Tailwind CSS
-- Dark mode
-- Animações com Framer Motion
-- Notificações (ex: "Tarefa adicionada!" usando react-toastify)
+#### Feedback Visual
 
-## Deploy
+- Loading states
+- Mensagens de sucesso/erro
+- Animações de transição
+- Tooltips informativos
 
-- Aplicação hospedada no **Vercel**
-- Supabase configurado na nuvem
+#### Sistema de Notificações
 
-## Configuração do Ambiente
+- Alertas em tempo real
+- Lembretes de tarefas
+- Notificações por email
 
-Crie um arquivo `.env.local` com as chaves de API:
+## Guia de Instalação e Configuração
+
+### Requisitos do Sistema
+
+- Node.js 14.0 ou superior
+- NPM ou Yarn
+- Conta no Clerk
+- Conta no Stripe
+- Conta no Supabase (pendente)
+
+### Configuração do Ambiente
+
+1. **Clone o Repositório**
+
+```bash
+git clone [url-do-repositorio]
+cd to-do-list-pro
+```
+
+2. **Instale as Dependências**
+
+```bash
+npm install
+```
+
+3. **Configure as Variáveis de Ambiente**
+   Crie um arquivo `.env.local` com:
 
 ```env
-NEXT_PUBLIC_SUPABASE_URL=your_supabase_url
-NEXT_PUBLIC_SUPABASE_ANON_KEY=your_supabase_anon_key
-NEXT_PUBLIC_CLERK_FRONTEND_API=your_clerk_frontend_api
-CLERK_API_KEY=your_clerk_api_key
+# Clerk
+NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY=pk_test_****
+CLERK_SECRET_KEY=sk_test_****
+NEXT_PUBLIC_CLERK_SIGN_IN_URL=/sign-in
+NEXT_PUBLIC_CLERK_SIGN_UP_URL=/sign-up
+NEXT_PUBLIC_CLERK_AFTER_SIGN_IN_URL=/
+NEXT_PUBLIC_CLERK_AFTER_SIGN_UP_URL=/
+
+# Stripe
+STRIPE_SECRET_KEY=sk_test_****
+NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY=pk_test_****
+
+# Supabase (pendente)
+NEXT_PUBLIC_SUPABASE_URL=****
+NEXT_PUBLIC_SUPABASE_ANON_KEY=****
 ```
 
-## Atualizações Recentes
+4. **Inicie o Servidor de Desenvolvimento**
 
-### **Arquivos Criados**
-
-- **Componentes**:
-  - `Task.tsx`: Componente de tarefa individual.
-  - `TaskList.tsx`: Lista de tarefas.
-  - `TaskForm.tsx`: Formulário para adicionar tarefas.
-
-### **Estrutura Atualizada do Projeto**
-
-```
-/src
-├── pages
-│   ├── index.tsx  # Tela principal (lista de tarefas)
-│   ├── admin.tsx  # Tela de administração
-│   ├── sign-in.tsx  # Página de login (Clerk)
-│   ├── sign-up.tsx  # Página de cadastro (Clerk)
-└── components
-    ├── Task.tsx  # Componente de tarefa individual
-    ├── TaskList.tsx  # Lista de tarefas
-    ├── TaskForm.tsx  # Formulário para adicionar tarefas
+```bash
+npm run dev
 ```
 
-### **Próximos Passos**
+## Estrutura de Arquivos
 
-- Implementar a lógica para gerenciar tarefas na tela principal.
-- Conectar o formulário de tarefas ao estado global ou ao banco de dados.
+```
+src/
+├── components/          # Componentes React reutilizáveis
+│   ├── AdminLayout/    # Layout do painel administrativo
+│   ├── TaskCard/       # Componente de tarefa
+│   └── ...
+├── hooks/              # Hooks personalizados
+├── lib/               # Configurações e utilidades
+├── pages/             # Páginas da aplicação
+│   ├── admin/         # Páginas administrativas
+│   ├── api/           # Rotas da API
+│   └── ...
+└── types/             # Definições de tipos TypeScript
+```
 
-## Conclusão
+## Contribuição
 
-Este documento detalha o escopo e funcionalidades do projeto **To-Do List**. O sistema será escalável, seguro e de fácil manutenção. O próximo passo é continuar a implementação seguindo este plano. 🚀
+### Processo de Desenvolvimento
 
-## Atualizações Recentes
+1. Fork o repositório
+2. Crie uma branch para sua feature (`git checkout -b feature/nome-da-feature`)
+3. Commit suas mudanças (`git commit -m 'Adiciona nova feature'`)
+4. Push para a branch (`git push origin feature/nome-da-feature`)
+5. Abra um Pull Request
 
-### Implementações Recentes
+### Padrões de Código
 
-- Criados os componentes: Task, TaskList e TaskForm.
-- Estrutura de pastas atualizada para incluir a pasta src.
+- Utilize TypeScript
+- Siga o estilo de código existente
+- Adicione testes quando possível
+- Mantenha a documentação atualizada
 
-## Atualizações Recentes
+## Suporte
 
-### Implementações Recentes
+Para suporte e dúvidas:
 
-- Implementação da lógica para gerenciar tarefas na tela principal.
-- Conexão do formulário de tarefas ao estado global ou ao banco de dados.
+- Abra uma issue no GitHub
+- Entre em contato com a equipe de desenvolvimento
+
+## Licença
+
+Este projeto está sob a licença MIT. Veja o arquivo LICENSE para mais detalhes.

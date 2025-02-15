@@ -1,5 +1,5 @@
 import React from "react";
-import AdminLayout from "../../components/AdminLayout";
+import AdminLayout from "../components/AdminLayout";
 import {
   LineChart,
   Line,
@@ -8,6 +8,8 @@ import {
   CartesianGrid,
   Tooltip,
 } from "recharts";
+import CheckoutButton from "../components/CheckoutButton";
+import TaskForm from "../components/TaskForm";
 
 const AdminPanel: React.FC = () => {
   // Dados de exemplo para formas de pagamento
@@ -100,6 +102,10 @@ const AdminPanel: React.FC = () => {
             </li>
           </ul>
         </div>
+
+        <TaskForm />
+
+        <CheckoutButton items={[{ price: "price_id", quantity: 1 }]} />
       </div>
     </AdminLayout>
   );

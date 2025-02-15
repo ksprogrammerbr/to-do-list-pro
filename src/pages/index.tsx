@@ -1,19 +1,10 @@
 import React from "react";
-import { useUser } from "@clerk/nextjs";
-import { useRouter } from "next/router";
-import { useEffect } from "react";
+import useAuth from "../hooks/useAuth";
 import Navbar from "../components/Navbar";
 import TaskList from "../components/TaskList";
 
 const HomePage: React.FC = () => {
-  const { isLoaded, isSignedIn } = useUser();
-  const router = useRouter();
-
-  useEffect(() => {
-    if (isLoaded && !isSignedIn) {
-      router.push("/sign-in");
-    }
-  }, [isLoaded, isSignedIn, router]);
+  const { isLoaded, isSignedIn } = useAuth();
 
   if (!isLoaded || !isSignedIn) {
     return null;
