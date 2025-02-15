@@ -1,159 +1,26 @@
-# To-Do List Pro - Documentação
+# To-Do List Pro - Documentação Completa
 
-## Status do Projeto
+## Visão Geral do Projeto
 
-### Implementado ✅
+O To-Do List Pro é um sistema de gerenciamento de tarefas profissional com autenticação e sistema de pagamentos integrado. O projeto utiliza tecnologias modernas e oferece uma experiência de usuário fluida e segura.
 
-#### 1. Autenticação (Clerk)
+## Tecnologias e Integrações
 
-- Sistema de login/registro usando Clerk
-- Proteção de rotas
-- Middleware configurado
-- Estrutura de autenticação centralizada com RootLayout
-- Hook personalizado useAuth
-- Redirecionamento automático para login
+### Principais Tecnologias
 
-#### 2. Interface do Usuário
+- **Next.js**: Framework React para SSR/SSG
+- **TypeScript**: Tipagem estática
+- **Tailwind CSS**: Estilização
+- **Clerk**: Autenticação
+- **Stripe**: Pagamentos
+- **Supabase**: Banco de dados (em implementação)
 
-- Design moderno com efeitos glassmorphism
-- Tema com gradientes suaves
-- Layout responsivo
-- Navbar com navegação
-- Componentes base implementados:
-  - TaskCard
-  - TaskForm
-  - TaskList
-  - AdminLayout
-  - RootLayout
+### Configuração do Ambiente
 
-#### 3. Painel Administrativo
-
-- Dashboard básico
-- Visualização de usuários
-- Página de relatórios
-- Seção financeira
-- Navegação entre seções
-
-#### 4. Integração com Stripe (Parcial)
-
-- Configuração inicial do Stripe
-- Componente de checkout
-- Rota de API para sessão de pagamento
-
-### Pendente ⏳
-
-#### 1. Banco de Dados (Supabase)
-
-- Implementar conexão com Supabase
-- Criar tabelas necessárias:
-  - tasks
-  - user_profiles
-  - payments
-- Implementar CRUD de tarefas
-- Sincronização de dados em tempo real
-
-#### 2. Funcionalidades de Tarefas
-
-- Drag and Drop entre status
-- Sistema de filtros
-- Busca de tarefas
-- Ordenação
-- Sistema de lembretes
-- Histórico de alterações
-
-#### 3. Integração Stripe (Completar)
-
-- Implementar webhooks
-- Histórico de pagamentos
-- Sistema de assinaturas
-- Relatórios financeiros
-
-#### 4. Funcionalidades Administrativas
-
-- Gerenciamento efetivo de usuários
-- Sistema de roles e permissões
-- Logs de atividades
-- Relatórios detalhados
-- Métricas e analytics
-
-#### 5. Melhorias de UX/UI
-
-- Feedback visual de ações
-- Loading states
-- Tratamento de erros
-- Mensagens de confirmação
-- Tooltips e ajudas contextuais
-
-## Estrutura do Projeto
-
-### Componentes Principais
-
-```
-src/
-  components/
-    AdminLayout.tsx    # Layout para páginas administrativas
-    Navbar.tsx         # Barra de navegação
-    RootLayout.tsx     # Provider principal do Clerk
-    TaskCard.tsx       # Card individual de tarefa
-    TaskForm.tsx       # Formulário de criação/edição
-    TaskList.tsx       # Lista de tarefas
-
-  hooks/
-    useAuth.ts         # Hook personalizado de autenticação
-
-  pages/
-    admin/
-      index.tsx        # Dashboard
-      users.tsx        # Gerenciamento de usuários
-      reports.tsx      # Relatórios
-      settings.tsx     # Configurações
-      activity.tsx     # Atividades
-      financialAdmin.tsx # Administração financeira
-
-    api/
-      create-checkout-session.ts # API do Stripe
-
-    _app.tsx           # Configuração da aplicação
-    index.tsx          # Página principal
-
-  middleware.ts        # Middleware do Clerk
-```
-
-### Tecnologias Utilizadas
-
-- Next.js
-- TypeScript
-- Tailwind CSS
-- Clerk (Autenticação)
-- Stripe (Pagamentos)
-- Supabase (Pendente)
-- React Icons
-- Recharts (Gráficos)
-
-## Próximos Passos
-
-1. **Prioridade Alta**
-
-   - Implementar integração com Supabase
-   - Completar CRUD de tarefas
-   - Finalizar integração com Stripe
-
-2. **Prioridade Média**
-
-   - Implementar sistema de filtros
-   - Adicionar drag and drop
-   - Melhorar feedback visual
-
-3. **Prioridade Baixa**
-   - Implementar relatórios detalhados
-   - Adicionar analytics
-   - Melhorar documentação
-
-## Configuração do Ambiente
-
-### Variáveis de Ambiente (.env.local)
+#### Variáveis de Ambiente (.env.local)
 
 ```env
+# Clerk - Autenticação
 NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY=pk_test_****
 CLERK_SECRET_KEY=sk_test_****
 NEXT_PUBLIC_CLERK_SIGN_IN_URL=/sign-in
@@ -161,21 +28,201 @@ NEXT_PUBLIC_CLERK_SIGN_UP_URL=/sign-up
 NEXT_PUBLIC_CLERK_AFTER_SIGN_IN_URL=/
 NEXT_PUBLIC_CLERK_AFTER_SIGN_UP_URL=/
 
-STRIPE_SECRET_KEY=sk_test_****
+# Stripe - Pagamentos
 NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY=pk_test_****
+STRIPE_SECRET_KEY=sk_test_****
 
-# Pendente
+# Supabase - Banco de Dados
 NEXT_PUBLIC_SUPABASE_URL=****
 NEXT_PUBLIC_SUPABASE_ANON_KEY=****
 ```
 
-## Contribuição
+## Estrutura do Projeto
 
-1. Fork o projeto
+### Diretórios Principais
+
+```
+src/
+├── components/          # Componentes React
+├── pages/              # Páginas e rotas
+│   ├── api/            # Endpoints da API
+│   ├── admin/          # Área administrativa
+│   ├── sign-in/        # Página de login
+│   └── sign-up/        # Página de registro
+├── lib/                # Configurações e utilitários
+├── styles/             # Estilos e temas
+└── middleware.ts       # Middleware de autenticação
+```
+
+## Funcionalidades Implementadas
+
+### 1. Sistema de Autenticação (Clerk)
+
+#### Configuração
+
+- Middleware de autenticação configurado em `src/middleware.ts`
+- Rotas públicas e protegidas definidas
+- Integração com Next.js
+
+#### Páginas de Autenticação
+
+```typescript
+// src/pages/sign-in/[[...index]].tsx
+const SignInPage = () => {
+  return (
+    <div className="min-h-screen flex items-center justify-center">
+      <SignIn
+        appearance={{...}}
+        routing="path"
+        path="/sign-in"
+        signUpUrl="/sign-up"
+      />
+    </div>
+  );
+};
+```
+
+### 2. Sistema de Pagamentos (Stripe)
+
+#### Configuração do Stripe
+
+```typescript
+// src/lib/stripe.ts
+const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!, {
+  apiVersion: "2023-10-16",
+  typescript: true,
+});
+```
+
+#### API de Checkout
+
+```typescript
+// src/pages/api/create-checkout-session.ts
+export default async function handler(
+  req: NextApiRequest,
+  res: NextApiResponse
+) {
+  const session = await stripe.checkout.sessions.create({
+    payment_method_types: ["card"],
+    line_items: items,
+    mode: "payment",
+    success_url: `${req.headers.origin}/success`,
+    cancel_url: `${req.headers.origin}/cancel`,
+  });
+}
+```
+
+#### Componente de Pagamento
+
+```typescript
+// src/components/CheckoutButton.tsx
+const CheckoutButton = ({ items }) => {
+  const handleClick = async () => {
+    const stripe = await getStripe();
+    // Lógica de checkout
+  };
+
+  return <button onClick={handleClick}>Finalizar Compra</button>;
+};
+```
+
+### 3. Estilização
+
+#### Módulos CSS
+
+```css
+/* src/styles/auth.module.css */
+.signInContainer {
+  min-height: 100vh;
+  display: flex;
+  background: linear-gradient(...);
+}
+
+.signInCard {
+  backdrop-filter: blur(10px);
+  border-radius: 1rem;
+}
+```
+
+## Próximos Passos
+
+### 1. Integração com Supabase
+
+- Implementar conexão com banco de dados
+- Criar tabelas necessárias
+- Configurar real-time updates
+
+### 2. Funcionalidades de Tarefas
+
+- CRUD completo de tarefas
+- Sistema de filtros e busca
+- Ordenação e categorização
+
+### 3. Melhorias no Sistema de Pagamentos
+
+- Implementar webhooks do Stripe
+- Sistema de assinaturas
+- Histórico de pagamentos
+
+### 4. Área Administrativa
+
+- Dashboard completo
+- Gerenciamento de usuários
+- Relatórios e análises
+
+## Guia de Desenvolvimento
+
+### Instalação
+
+```bash
+git clone [repositório]
+npm install
+```
+
+### Configuração
+
+1. Copie `.env.example` para `.env.local`
+2. Configure as variáveis de ambiente
+3. Execute `npm run dev`
+
+### Commits
+
+Seguir o padrão de commits convencionais:
+
+- feat: novas funcionalidades
+- fix: correções
+- docs: documentação
+- style: formatação
+- refactor: refatoração de código
+
+## Considerações de Segurança
+
+### Autenticação
+
+- Middleware protege rotas privadas
+- Tokens gerenciados pelo Clerk
+- Sessões seguras
+
+### Pagamentos
+
+- Chaves do Stripe em variáveis de ambiente
+- Webhooks para confirmação segura
+- Validação de transações
+
+## Suporte e Contribuição
+
+### Como Contribuir
+
+1. Fork o repositório
 2. Crie uma branch para sua feature
-3. Commit suas mudanças
-4. Push para a branch
-5. Abra um Pull Request
+3. Faça commit das alterações
+4. Abra um Pull Request
+
+### Reportando Problemas
+
+- Abra uma issue no GitHub
+- Descreva o problema detalhadamente
+- Inclua passos para reproduzir
 
 ## Licença
 

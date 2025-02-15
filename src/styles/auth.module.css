@@ -1,0 +1,38 @@
+.signInContainer {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(
+    to bottom right,
+    var(--primary-100),
+    var(--primary-200),
+    var(--primary-300)
+  );
+}
+
+.signInCard {
+  width: 100%;
+  max-width: 400px;
+  margin: 0 auto;
+  padding: 2rem;
+  background: rgba(255, 255, 255, 0.8);
+  backdrop-filter: blur(10px);
+  border-radius: 1rem;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.signInButton {
+  width: 100%;
+  padding: 0.75rem;
+  background: var(--primary-400);
+  color: white;
+  border: none;
+  border-radius: 0.5rem;
+  font-weight: 500;
+  transition: background 0.2s;
+}
+
+.signInButton:hover {
+  background: var(--primary-300);
+}

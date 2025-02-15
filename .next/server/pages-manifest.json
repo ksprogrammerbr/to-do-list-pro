@@ -2,10 +2,9 @@
   "/_app": "pages/_app.js",
   "/_error": "pages/_error.js",
   "/_document": "pages/_document.js",
-  "/": "pages/index.js",
-  "/admin/users": "pages/admin/users.js",
   "/admin": "pages/admin.js",
+  "/": "pages/index.js",
   "/admin/reports": "pages/admin/reports.js",
-  "/admin/settings": "pages/admin/settings.js",
-  "/admin/activity": "pages/admin/activity.js"
+  "/api/create-checkout-session": "pages/api/create-checkout-session.js",
+  "/admin/users": "pages/admin/users.js"
 }
