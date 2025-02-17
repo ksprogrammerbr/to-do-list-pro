@@ -1,15 +1,8 @@
-import { useRealtimeSubscription } from "@/hooks/useRealtimeSubscription";
+import { useRealtimeSubscription, Task } from "@/hooks/useRealtimeSubscription";
 import type { Database } from "@/types/supabase";
 import { supabase } from "@/lib/supabase/client";
 import { useEffect, useState } from "react";
-import {
-  Dialog,
-  DialogContent,
-  DialogHeader,
-  DialogTitle,
-  DialogTrigger,
-  DialogClose,
-} from "@/components/ui/dialog";
+import { useAuth, useUser } from "@clerk/clerk-react";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import {
@@ -20,7 +13,14 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { DatabaseStatus } from "./DatabaseStatus";
-import { useAuth, useUser } from "@clerk/clerk-react";
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+  DialogClose,
+} from "@/components/ui/dialog";
 
 // Tipos corretos da tabela tasks
 type TaskRow = Database["public"]["Tables"]["tasks"]["Row"];
@@ -29,7 +29,6 @@ type TaskInsert = Database["public"]["Tables"]["tasks"]["Insert"];
 export function TasksManagement() {
   const { user, isLoaded } = useUser();
   const { data: tasks, loading } = useRealtimeSubscription("tasks");
-  const { data: users } = useRealtimeSubscription("user_profiles");
   const [isDialogOpen, setIsDialogOpen] = useState(false);
   const [newTask, setNewTask] = useState({
     title: "",
@@ -38,24 +37,49 @@ export function TasksManagement() {
   });
 
   async function handleCreateTask() {
-    if (!user?.id) return;
+    if (!user?.id) {
+      console.warn("Usuário não autenticado.");
+      return;
+    }
 
     try {
+      // Convertendo o ID do usuário para string explicitamente
+      const userIdAsString = String(user.id);
+      console.log("ID do usuário:", userIdAsString);
+
+      const taskData = {
+        title: newTask.title,
+        description: newTask.description,
+        status: "pending",
+        priority: newTask.priority,
+        user_id: userIdAsString,
+        tags: [],
+      };
+
       const { data, error } = await supabase
         .from("tasks")
         .insert([
           {
-            title: newTask.title,
-            description: newTask.description,
-            status: "pending",
-            priority: newTask.priority,
-            user_id: user.id,
-            tags: [],
+            title: taskData.title,
+            description: taskData.description,
+            status: taskData.status,
+            priority: taskData.priority,
+            user_id: taskData.user_id,
+            tags: taskData.tags,
           },
         ])
-        .select();
+        .select(); // VERY IMPORTANT: select() returns the inserted row if successful
 
-      if (error) throw error;
+      if (error) {
+        console.error("Erro ao criar tarefa:", error);
+        console.log("Tarefa inserida:", data);
+        console.log("Detalhes do erro:", error.details);
+        console.log("Tarefas recebidas:", tasks);
+        console.log("ID do usuário autenticado:", user?.id);
+        console.log("ID do usuário não autenticado:", user?.id);
+
+        throw error;
+      }
 
       // Limpa o formulário e fecha o diálogo
       setNewTask({
@@ -71,10 +95,17 @@ export function TasksManagement() {
 
   async function handleUpdateTaskStatus(taskId: string, newStatus: string) {
     try {
-      await supabase
+      const { data, error } = await supabase
         .from("tasks")
         .update({ status: newStatus })
-        .eq("id", taskId);
+        .eq("id", taskId)
+        .select();
+
+      if (error) {
+        console.error("Error updating task:", error);
+        console.log("Task updated: ", data);
+        throw error;
+      }
     } catch (error) {
       console.error("Erro ao atualizar status:", error);
     }
