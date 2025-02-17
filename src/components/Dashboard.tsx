@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { Calendar } from "@/components/ui/calendar";
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import { useRealtimeSubscription } from "@/hooks/useRealtimeSubscription";
-import { useUser } from "@clerk/nextjs";
+import { useUser } from "@clerk/clerk-react";
 import {
   Clock,
   Calendar as CalendarIcon,

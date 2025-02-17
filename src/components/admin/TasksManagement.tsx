@@ -20,7 +20,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { DatabaseStatus } from "./DatabaseStatus";
-import { useAuth, useUser } from "@clerk/nextjs";
+import { useAuth, useUser } from "@clerk/clerk-react";
 
 // Tipos corretos da tabela tasks
 type TaskRow = Database["public"]["Tables"]["tasks"]["Row"];

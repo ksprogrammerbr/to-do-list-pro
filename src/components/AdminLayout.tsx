@@ -1,6 +1,6 @@
 import React from "react";
 import Navbar from "./Navbar";
-import { useAuth } from "@clerk/nextjs";
+import { useAuth } from "@clerk/clerk-react";
 import { useRouter } from "next/router";
 import { useEffect } from "react";
 import Link from "next/link";
