@@ -1,32 +1,21 @@
 import { ClerkProvider } from "@clerk/clerk-react";
 import type { AppProps } from "next/app";
-import { ptBR } from "@clerk/localizations";
-import "../styles/globals.css";
+import "@/styles/globals.css";
 
-if (!process.env.NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY) {
-  throw new Error("Missing Clerk Publishable Key");
-}
+console.log(
+  "CLERK PUBLISHABLE KEY:",
+  process.env.NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY
+);
 
-function MyApp({ Component, pageProps }: AppProps) {
+export default function App({ Component, pageProps }: AppProps) {
   return (
     <ClerkProvider
-      publishableKey={process.env.NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY}
-      localization={ptBR}
+      publishableKey={process.env.NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY!}
       appearance={{
-        layout: {
-          socialButtonsVariant: "iconButton",
-          socialButtonsPlacement: "bottom",
-          termsPageUrl: "/terms",
-          privacyPageUrl: "/privacy",
-        },
-        variables: {
-          colorPrimary: "#73C7C7",
-        },
+        variables: { colorPrimary: "#0F172A" },
       }}
     >
       <Component {...pageProps} />
     </ClerkProvider>
   );
 }
-
-export default MyApp;

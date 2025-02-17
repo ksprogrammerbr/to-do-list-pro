@@ -227,3 +227,31 @@ Seguir o padrão de commits convencionais:
 ## Licença
 
 Este projeto está sob a licença MIT.
+
+# Remove a pasta .next
+
+Remove-Item -Path ".next" -Recurse -Force
+
+# Remove node_modules
+
+Remove-Item -Path "node_modules" -Recurse -Force
+
+# Limpa o cache do npm
+
+npm cache clean --force
+
+# Desinstala o Clerk atual
+
+npm uninstall @clerk/nextjs
+
+# Instala a versão específica do Clerk
+
+npm install @clerk/nextjs@4.29.0
+
+# Reinstala todas as dependências
+
+npm install
+
+# Inicia o servidor
+
+npm run dev

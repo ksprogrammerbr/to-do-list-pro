@@ -1,21 +1,16 @@
-import React from "react";
-import useAuth from "../hooks/useAuth";
-import Navbar from "../components/Navbar";
-import TaskList from "../components/TaskList";
+import { Navbar } from "@/components/Navbar";
+import { Dashboard } from "@/components/Dashboard";
+import { useAuth } from "@clerk/nextjs";
 
-const HomePage: React.FC = () => {
-  const { isLoaded, isSignedIn } = useAuth();
+export default function Home() {
+  const { userId, isLoaded } = useAuth();
 
-  if (!isLoaded || !isSignedIn) {
-    return null;
-  }
+  if (!isLoaded) return null;
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-primary-100 via-primary-200 to-primary-300">
+    <div className="min-h-screen">
       <Navbar />
-      <TaskList />
+      <Dashboard />
     </div>
   );
-};
-
-export default HomePage;
+}

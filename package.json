@@ -8,29 +8,36 @@
     "update-docs": "node updateDocumentation.js"
   },
   "dependencies": {
-    "@clerk/clerk-react": "^5.22.13",
-    "@clerk/localizations": "^3.10.6",
-    "@clerk/nextjs": "^6.11.3",
+    "@clerk/clerk-react": "^4.30.0",
+    "@clerk/nextjs": "^4.31.6",
     "@headlessui/react": "^1.7.19",
+    "@radix-ui/react-dialog": "^1.1.6",
+    "@radix-ui/react-select": "^2.1.6",
     "@stripe/stripe-js": "^5.6.0",
     "@supabase/supabase-js": "^2.48.1",
     "@types/stripe": "^8.0.416",
+    "clsx": "^2.1.1",
     "date-fns": "^2.30.0",
+    "lucide-react": "^0.475.0",
     "next": "^14.1.0",
     "react": "18.2.0",
     "react-beautiful-dnd": "^13.1.1",
+    "react-day-picker": "^9.5.1",
     "react-dom": "18.2.0",
     "react-icons": "^4.12.0",
     "recharts": "^2.15.1",
-    "stripe": "^17.6.0"
+    "stripe": "^17.6.0",
+    "tailwind-merge": "^3.0.1"
   },
   "devDependencies": {
+    "@types/next": "^8.0.7",
     "@types/node": "^20.11.19",
-    "@types/react": "^18.2.57",
+    "@types/react": "^18.3.18",
     "@types/react-beautiful-dnd": "^13.1.8",
     "@types/react-dom": "^18.2.19",
     "autoprefixer": "^10.4.17",
     "postcss": "^8.4.35",
+    "supabase": "^2.12.1",
     "tailwindcss": "^3.4.1",
     "typescript": "^5.3.3"
   }

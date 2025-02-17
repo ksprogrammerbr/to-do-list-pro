@@ -4,7 +4,7 @@ import Link from "next/link";
 import { FiHome, FiSettings, FiActivity, FiUsers } from "react-icons/fi";
 import { useRouter } from "next/router";
 
-const Navbar: React.FC = () => {
+export function Navbar() {
   const { user, isSignedIn, isLoaded } = useUser(); // Inclua isLoaded
   const router = useRouter();
 
@@ -109,6 +109,6 @@ const Navbar: React.FC = () => {
       </div>
     </nav>
   );
-};
+}
 
 export default Navbar;
